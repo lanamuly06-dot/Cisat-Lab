@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LabPinjam – Peminjaman Alat Laboratorium</title>
+<title>Cisat Lab – Peminjaman Alat Laboratorium</title>
 <style>
 :root{--o:#f26a0f;--o2:#ff8a3d;--bg:#fff7f0;--card:#fff;--tx:#2a2018;--mu:#7c6f66;--bd:#f0e2d6;--ok:#1f9d55;--okb:#dff5e8;--bl:#2563eb;--blb:#dbe8ff;--rd:#dc2626;--rdb:#fde2e2;--yl:#b45309;--ylb:#ffedd5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1511;--card:#27201a;--tx:#f5ece4;--mu:#b3a497;--bd:#3a2f26;--okb:#173a27;--blb:#1c2f57;--rdb:#4a1f1f;--ylb:#4a3018}}
@@ -37,7 +37,7 @@ nav button{flex:1;border:0;background:none;color:var(--mu);font:11px inherit;dis
 </style></head><body><div id="app"></div><div id="modal"></div>
 <script>
 /* FIREBASE (opsional): isi FB={apiKey:"...",authDomain:"...",projectId:"...",appId:"..."} agar data tersimpan bersama di Firestore. Biarkan null untuk mode demo lokal. */
-const FB=null,SCHOOL='SMK Cibitung 1',K='labpinjam_v2',TD=new Date(),iso=d=>d.toISOString().slice(0,10),day=n=>{const d=new Date(TD);d.setDate(d.getDate()+n);return iso(d)};
+const FB={apiKey:"AIzaSyCkUVsWdMgfK-x_M-V7JHt4IWzBoygFmmo",authDomain:"cisat-lab.firebaseapp.com",projectId:"cisat-lab",appId:"1:985401913282:web:8031bb3b6324c19599305b"},SCHOOL='SMK Cibitung 1',K='labpinjam_v2',TD=new Date(),iso=d=>d.toISOString().slice(0,10),day=n=>{const d=new Date(TD);d.setDate(d.getDate()+n);return iso(d)};
 const fmt=s=>s?new Date(s+'T00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}):'-';
 const seed=()=>({tools:[
 {id:1,kode:'LAB-001',nama:'Mikroskop',kat:'Biologi',ic:'🔬',stok:8,total:10,kon:'Baik',lok:'Lemari A',desc:'Mikroskop cahaya untuk pengamatan preparat biologi.'},
@@ -86,8 +86,8 @@ function modal(h){$('#modal').innerHTML=h?`<div class="modal" onclick="if(event.
 
 function render(){
  const A=$('#app');
- if(!U&&splash){A.innerHTML=`<div class="splash"><div class="logo">${LOGO}</div><h1 style="margin:0;font-size:34px">LabPinjam</h1><p>Sistem Peminjaman Alat Laboratorium<br><b>${SCHOOL}</b></p><p style="font-size:12px">Mudah • Cepat • Terpercaya</p><div>${['🔬','🧪','⚖'].map(k=>`<span style="display:inline-block;width:56px;margin:0 6px">${IMG[k].replace(/#f26a0f/g,'#fff')}</span>`).join('')}</div><button class="btn" onclick="splash=0;render()">Mulai ›</button></div>`;return}
- if(!U){A.innerHTML=`<div class="login"><div class="logo">${LOGO}</div><h1>LabPinjam</h1><p class="mu">Sistem Peminjaman Alat Laboratorium<br>${SCHOOL}</p>
+ if(!U&&splash){A.innerHTML=`<div class="splash"><div class="logo">${LOGO}</div><h1 style="margin:0;font-size:34px">Cisat Lab</h1><p>Sistem Peminjaman Alat Laboratorium<br><b>${SCHOOL}</b></p><p style="font-size:12px">Mudah • Cepat • Terpercaya</p><div>${['🔬','🧪','⚖'].map(k=>`<span style="display:inline-block;width:56px;margin:0 6px">${IMG[k].replace(/#f26a0f/g,'#fff')}</span>`).join('')}</div><button class="btn" onclick="splash=0;render()">Mulai ›</button></div>`;return}
+ if(!U){A.innerHTML=`<div class="login"><div class="logo">${LOGO}</div><h1>Cisat Lab</h1><p class="mu">Sistem Peminjaman Alat Laboratorium<br>${SCHOOL}</p>
  <div style="text-align:left;margin-top:24px"><label>${F?'Email':'Username'}</label><input id="u" placeholder="${F?'email@sekolah.sch.id':'siswa / admin'}"><label>Password</label><input id="p" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
  <button class="btn" onclick="login()">Login</button></div>
  ${F?'<p class="mu">Belum punya akun? <a href="#" onclick="reg();return false" style="color:var(--o)">Daftar di sini</a></p>':'<p class="mu">Akun demo:</p><div class="row"><button class="btn l s sp" onclick="demo(\'siswa\')">Siswa</button><button class="btn l s sp" onclick="demo(\'admin\')">Admin</button></div>'}</div>`;return}
@@ -139,7 +139,7 @@ function form(id){
  <div class="grid"><div><label>Tanggal Pinjam</label><input id="ft" type="date" value="${day(0)}"></div><div><label>Tanggal Kembali</label><input id="fk" type="date" value="${day(2)}"></div></div>
  <label>Tujuan Penggunaan</label><select id="fu"><option>Praktikum Biologi</option><option>Praktikum Kimia</option><option>Praktikum Fisika</option><option>Lainnya</option></select>
  <label>Catatan (opsional)</label><textarea id="fc" rows="2"></textarea><button class="btn" onclick="submitLoan()">Ajukan Peminjaman</button>`)}
-function submitLoan()}
+function submitLoan(){
  const a=+$('#fa').value,j=+$('#fj').value,t=$('#ft').value,k=$('#fk').value,T=tool(a);
  if(!(j>=1)||j>T.stok)return alert('Jumlah melebihi stok tersedia ('+T.stok+').');
  if(!t||!k||k<t)return alert('Tanggal kembali harus sama atau setelah tanggal pinjam.');
