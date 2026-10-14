@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LabPinjam – Peminjaman Alat Laboratorium</title>
+<style>
+:root{--o:#f26a0f;--o2:#ff8a3d;--bg:#fff7f0;--card:#fff;--tx:#2a2018;--mu:#7c6f66;--bd:#f0e2d6;--ok:#1f9d55;--okb:#dff5e8;--bl:#2563eb;--blb:#dbe8ff;--rd:#dc2626;--rdb:#fde2e2;--yl:#b45309;--ylb:#ffedd5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1511;--card:#27201a;--tx:#f5ece4;--mu:#b3a497;--bd:#3a2f26;--okb:#173a27;--blb:#1c2f57;--rdb:#4a1f1f;--ylb:#4a3018}}
+:root[data-theme="dark"]{--bg:#1b1511;--card:#27201a;--tx:#f5ece4;--mu:#b3a497;--bd:#3a2f26;--okb:#173a27;--blb:#1c2f57;--rdb:#4a1f1f;--ylb:#4a3018}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:78px}
+.top{background:linear-gradient(135deg,var(--o),var(--o2));color:#fff;padding:18px 16px 22px;border-radius:0 0 22px 22px}
+.top h2{margin:0;font-size:18px}.top small{opacity:.9}
+.pad{padding:14px 16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat b{display:block;font-size:24px}.stat span{color:var(--mu);font-size:12px}
+.row{display:flex;align-items:center;gap:10px}.sp{flex:1;min-width:0}
+.ico{width:46px;height:46px;border-radius:12px;background:var(--ylb);display:grid;place-items:center;font-size:24px;flex:none}
+.ico{overflow:hidden}.ico svg{width:72%;height:72%}.ico img{width:100%;height:100%;object-fit:cover}.splash{min-height:100vh;background:linear-gradient(160deg,var(--o),var(--o2));color:#fff;text-align:center;padding:70px 24px;display:flex;flex-direction:column;align-items:center;gap:14px}.splash p{margin:0}.splash .btn{background:#fff;color:var(--o);max-width:280px;margin-top:20px}.tag{font-size:11px;padding:2px 9px;border-radius:99px;font-weight:600;white-space:nowrap}
+.g{background:var(--okb);color:var(--ok)}.b{background:var(--blb);color:var(--bl)}.r{background:var(--rdb);color:var(--rd)}.y{background:var(--ylb);color:var(--yl)}.n{background:var(--bd);color:var(--mu)}
+.mu{color:var(--mu);font-size:12px}h3{margin:14px 0 8px;font-size:15px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit;margin-bottom:10px}
+label{font-size:12px;color:var(--mu);display:block;margin-bottom:3px}
+.btn{background:var(--o);color:#fff;border:0;border-radius:10px;padding:12px;font:600 14px inherit;width:100%;cursor:pointer}
+.btn.s{width:auto;padding:6px 12px;font-size:12px}.btn.l{background:var(--card);color:var(--o);border:1px solid var(--o)}.btn.d{background:var(--rd)}.btn.ok{background:var(--ok)}
+.tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}.tabs button{flex:1;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px;border-radius:10px;font:600 13px inherit;white-space:nowrap;cursor:pointer}.tabs .on{background:var(--o);color:#fff;border-color:var(--o)}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;background:var(--card);border-top:1px solid var(--bd);display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mu);font:11px inherit;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}nav b{font-size:20px;font-weight:400}nav .on{color:var(--o);font-weight:700}
+.modal{position:fixed;inset:0;background:#0007;display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}
+.login{padding:40px 20px;text-align:center}.logo{font-size:56px}.login h1{color:var(--o);margin:6px 0}
+.tbl{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:12px}td,th{padding:7px 6px;border-bottom:1px solid var(--bd);text-align:left}
+.tl{border-left:2px solid var(--bd);margin-left:6px;padding-left:12px}.tl div{margin-bottom:8px}.tl .d{color:var(--ok);font-weight:600}
+.q{display:flex;align-items:center;gap:10px;margin-bottom:10px}.q button{width:36px;height:36px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:18px}
+@media print{nav,.top .btn,.noprint{display:none!important}}
+</style></head><body><div id="app"></div><div id="modal"></div>
+<script>
+/* FIREBASE (opsional): isi FB={apiKey:"...",authDomain:"...",projectId:"...",appId:"..."} agar data tersimpan bersama di Firestore. Biarkan null untuk mode demo lokal. */
+const FB=null,SCHOOL='SMK Cibitung 1',K='labpinjam_v2',TD=new Date(),iso=d=>d.toISOString().slice(0,10),day=n=>{const d=new Date(TD);d.setDate(d.getDate()+n);return iso(d)};
+const fmt=s=>s?new Date(s+'T00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'}):'-';
+const seed=()=>({tools:[
+{id:1,kode:'LAB-001',nama:'Mikroskop',kat:'Biologi',ic:'🔬',stok:8,total:10,kon:'Baik',lok:'Lemari A',desc:'Mikroskop cahaya untuk pengamatan preparat biologi.'},
+{id:2,kode:'LAB-002',nama:'Tabung Reaksi',kat:'Kimia',ic:'🧪',stok:15,total:20,kon:'Baik',lok:'Lemari B',desc:'Tabung kaca untuk reaksi kimia skala kecil.'},
+{id:3,kode:'LAB-003',nama:'Buret',kat:'Kimia',ic:'⚗️',stok:6,total:6,kon:'Baik',lok:'Lemari B',desc:'Alat titrasi untuk mengukur volume larutan secara presisi.'},
+{id:4,kode:'LAB-004',nama:'Spatula',kat:'Biologi',ic:'🥄',stok:10,total:12,kon:'Baik',lok:'Laci 2',desc:'Sendok kecil untuk mengambil bahan padat.'},
+{id:5,kode:'LAB-005',nama:'Neraca Digital',kat:'Fisika',ic:'⚖️',stok:4,total:5,kon:'Baik',lok:'Lemari C',desc:'Timbangan digital ketelitian 0,01 g.'}],
+loans:[
+{id:1,user:'Andi Pratama',kelas:'X IPA 1',alat:1,jml:2,tgl:day(-1),kem:day(1),tuj:'Praktikum Biologi',cat:'',st:'Menunggu',log:[[day(-1),'Permohonan diajukan']]},
+{id:2,user:'Andi Pratama',kelas:'X IPA 1',alat:2,jml:3,tgl:day(-3),kem:day(-1),tuj:'Praktikum Kimia',cat:'',st:'Dipinjam',log:[[day(-3),'Permohonan diajukan'],[day(-3),'Disetujui']]},
+{id:3,user:'Andi Pratama',kelas:'X IPA 1',alat:5,jml:1,tgl:day(-9),kem:day(-7),tuj:'Praktikum Fisika',cat:'',st:'Selesai',log:[[day(-9),'Permohonan diajukan'],[day(-9),'Disetujui'],[day(-7),'Dikembalikan (Baik)']]},
+{id:4,user:'Siti Nurhaliza',kelas:'XI IPA 2',alat:1,jml:2,tgl:day(0),kem:day(2),tuj:'Praktikum Biologi',cat:'',st:'Menunggu',log:[[day(0),'Permohonan diajukan']]},
+{id:5,user:'Budi Santoso',kelas:'XII IPA 1',alat:3,jml:1,tgl:day(-2),kem:day(2),tuj:'Titrasi',cat:'',st:'Dipinjam',log:[[day(-2),'Permohonan diajukan'],[day(-2),'Disetujui']]}]});
+let D;try{D=JSON.parse(localStorage.getItem(K))}catch(e){}if(FB)D={tools:[],loans:[]};else if(!D){D=seed();D.loans.forEach(l=>l.uid=l.user==='Andi Pratama'?'siswa':l.user)}
+const S=p=>'<svg viewBox="0 0 48 48" fill="none" stroke="#f26a0f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
+const IMG={'🔬':S('<rect x="17" y="4" width="9" height="18" rx="2" transform="rotate(25 22 13)"/><path d="M30 18c6 3 8 12 2 19M10 42h28M16 34h12"/>'),
+'🧪':S('<path d="M10 6v28a4 4 0 0 0 8 0V6M30 6v28a4 4 0 0 0 8 0V6M8 6h12M28 6h12M10 24h8M30 18h8"/>'),
+'⚗':S('<path d="M18 4h12M21 4v28l3 10 3-10V4M21 14h6"/>'),
+'🥄':S('<path d="M8 40l14-14M20 28c-5-7 1-16 14-18 1 10-3 18-10 18z"/>'),
+'⚖':S('<rect x="6" y="30" width="36" height="12" rx="3"/><path d="M13 30c0-9 22-9 22 0M24 22v-6"/>'),
+'🧰':S('<rect x="6" y="14" width="36" height="26" rx="4"/><path d="M18 14V8h12v6M6 26h36"/>')};
+const LOGO='<svg viewBox="0 0 64 72" width="72" height="80"><path d="M32 3 58 12v22c0 18-12 30-26 35C18 64 6 52 6 34V12z" fill="#f26a0f" stroke="#fff" stroke-width="3"/><path d="M26 18h12M29 18v12L21 48a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-8-18V18" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const pic=t=>t.img?`<img src="${t.img}" alt="">`:(IMG[t.ic]||IMG[[...t.ic][0]]||t.ic);
+let F=null,splash=1,SNAP={tools:{},loans:{}};
+const save=()=>{if(F)return sync();try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}};
+let U=null,tab='home',sub='Aktif',q='',kat='';
+const tool=i=>D.tools.find(t=>t.id==i)||{nama:'?',ic:'❓'};
+const st=l=>l.st==='Dipinjam'&&l.kem<iso(TD)?'Terlambat':l.st;
+const cls={Menunggu:'y',Disetujui:'b',Dipinjam:'b',Selesai:'g',Ditolak:'r',Terlambat:'r'};
+const tg=l=>`<span class="tag ${cls[st(l)]}">${st(l)}</span>`;
+const adm=()=>U&&U.role==='admin';
+const mine=()=>D.loans.filter(l=>adm()||l.uid===U.uid);
+const $=s=>document.querySelector(s);
+const E=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function login(){
+ const u=$('#u').value.trim().toLowerCase(),p=$('#p').value;if(F)return F.a.signInWithEmailAndPassword(F.auth,u,p).catch(()=>alert('Email atau password salah.'));
+ if(u==='siswa'&&p==='siswa123')U={uid:'siswa',nama:'Andi Pratama',kelas:'X IPA 1',role:'siswa'};
+ else if(u==='admin'&&p==='admin123')U={uid:'admin',nama:'Admin Lab IPA',kelas:'Petugas Laboratorium',role:'admin'};
+ else return alert('Username atau password salah.');
+ tab='home';render();
+}
+function demo(r){$('#u').value=r;$('#p').value=r+'123'}
+function go(t){tab=t;sub=t==='pinjam'&&adm()?'Menunggu':'Aktif';q='';kat='';render()}
+function modal(h){$('#modal').innerHTML=h?`<div class="modal" onclick="if(event.target===this)modal()"><div class="sheet">${h}</div></div>`:''}
+
+function render(){
+ const A=$('#app');
+ if(!U&&splash){A.innerHTML=`<div class="splash"><div class="logo">${LOGO}</div><h1 style="margin:0;font-size:34px">LabPinjam</h1><p>Sistem Peminjaman Alat Laboratorium<br><b>${SCHOOL}</b></p><p style="font-size:12px">Mudah • Cepat • Terpercaya</p><div>${['🔬','🧪','⚖'].map(k=>`<span style="display:inline-block;width:56px;margin:0 6px">${IMG[k].replace(/#f26a0f/g,'#fff')}</span>`).join('')}</div><button class="btn" onclick="splash=0;render()">Mulai ›</button></div>`;return}
+ if(!U){A.innerHTML=`<div class="login"><div class="logo">${LOGO}</div><h1>LabPinjam</h1><p class="mu">Sistem Peminjaman Alat Laboratorium<br>${SCHOOL}</p>
+ <div style="text-align:left;margin-top:24px"><label>${F?'Email':'Username'}</label><input id="u" placeholder="${F?'email@sekolah.sch.id':'siswa / admin'}"><label>Password</label><input id="p" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+ <button class="btn" onclick="login()">Login</button></div>
+ ${F?'<p class="mu">Belum punya akun? <a href="#" onclick="reg();return false" style="color:var(--o)">Daftar di sini</a></p>':'<p class="mu">Akun demo:</p><div class="row"><button class="btn l s sp" onclick="demo(\'siswa\')">Siswa</button><button class="btn l s sp" onclick="demo(\'admin\')">Admin</button></div>'}</div>`;return}
+ const nav=adm()?[['home','🏠','Beranda'],['alat','🧰','Alat'],['pinjam','📋','Pinjaman'],['laporan','📊','Laporan'],['profil','👤','Profil']]:[['home','🏠','Beranda'],['alat','🧰','Alat'],['pinjam','📋','Pinjaman'],['profil','👤','Profil']];
+ A.innerHTML=V[tab]()+`<nav>${nav.map(n=>`<button class="${tab===n[0]?'on':''}" onclick="go('${n[0]}')"><b>${n[1]}</b>${n[2]}</button>`).join('')}</nav>`;
+}
+const head=(t,s='')=>`<div class="top"><h2>${t}</h2><small>${s}</small></div>`;
+const toolRow=t=>`<div class="card row" onclick="detail(${t.id})"><div class="ico">${pic(t)}</div><div class="sp"><b>${E(t.nama)}</b><div class="mu">${t.kat} • Stok: ${t.stok} • Kondisi: ${t.kon}</div></div><span class="tag ${t.stok>0?'g':'r'}">${t.stok>0?'Tersedia':'Habis'}</span></div>`;
+const loanRow=(l,act)=>{const t=tool(l.alat);return `<div class="card"><div class="row" onclick="ld(${l.id})"><div class="ico">${pic(t)}</div><div class="sp"><b>${E(t.nama)} ×${l.jml}</b><div class="mu">${adm()?E(l.user)+' • ':''}${fmt(l.tgl)} – ${fmt(l.kem)}</div></div>${tg(l)}</div>${act||''}</div>`};
+const V={
+home(){
+ const L=mine(),av=D.tools.reduce((a,t)=>a+t.stok,0),n=s=>L.filter(l=>st(l)===s).length;
+ const s=adm()?[['Total Alat',D.tools.length],['Alat Tersedia',av],['Pinjaman Aktif',n('Dipinjam')+n('Terlambat')],['Menunggu Persetujuan',n('Menunggu')]]:[['Alat Tersedia',av],['Pinjaman Aktif',n('Dipinjam')+n('Terlambat')],['Menunggu',n('Menunggu')],['Terlambat',n('Terlambat')]];
+ return head((adm()?'Dashboard Admin':'Halo, '+E(U.nama.split(' ')[0])),adm()?'Lab. IPA':'Siswa '+U.kelas)+`<div class="pad"><div class="grid">${s.map(x=>`<div class="card stat"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>
+ ${adm()?'':`<button class="btn" onclick="form()">+ Ajukan Peminjaman</button>`}
+ <h3>${adm()?'Peminjaman Terbaru':'Alat Populer'}</h3>${adm()?`<div class="card tbl"><table><tr><th>Nama</th><th>Alat</th><th>Status</th></tr>${[...D.loans].reverse().slice(0,5).map(l=>`<tr><td>${E(l.user)}</td><td>${tool(l.alat).nama}</td><td>${tg(l)}</td></tr>`).join('')}</table></div>`:D.tools.slice(0,3).map(toolRow).join('')}</div>`},
+alat(){
+ const L=D.tools.filter(t=>t.nama.toLowerCase().includes(q.toLowerCase())&&(!kat||t.kat===kat));
+ return head('Daftar Alat')+`<div class="pad"><input placeholder="🔍 Cari nama alat..." value="${E(q)}" oninput="q=this.value;render();const i=document.querySelector('input');i.focus();i.setSelectionRange(q.length,q.length)">
+ <select onchange="kat=this.value;render()"><option value="">Semua Kategori</option>${[...new Set(D.tools.map(t=>t.kat))].map(k=>`<option ${k===kat?'selected':''}>${k}</option>`).join('')}</select>
+ ${adm()?`<button class="btn" onclick="toolForm()">+ Tambah Alat</button><br><br>`:''}${L.map(toolRow).join('')||'<p class="mu">Alat tidak ditemukan.</p>'}</div>`},
+pinjam(){
+ const A=adm(),tabs=A?['Menunggu','Dipinjam','Riwayat']:['Aktif','Riwayat'],L=mine().reverse().filter(l=>{const s=st(l);return sub==='Menunggu'?s==='Menunggu':sub==='Dipinjam'?['Dipinjam','Terlambat'].includes(s):sub==='Aktif'?['Menunggu','Disetujui','Dipinjam','Terlambat'].includes(s):['Selesai','Ditolak'].includes(s)});
+ return head(A?'Kelola Peminjaman':'Status Peminjaman')+`<div class="pad"><div class="tabs">${tabs.map(t=>`<button class="${t===sub?'on':''}" onclick="sub='${t}';render()">${t}</button>`).join('')}</div>
+ ${L.map(l=>loanRow(l,A&&l.st==='Menunggu'?`<div class="row" style="margin-top:8px"><button class="btn d s sp" onclick="act(${l.id},'tolak')">Tolak</button><button class="btn ok s sp" onclick="act(${l.id},'setuju')">Setujui</button></div>`:A&&l.st==='Dipinjam'?`<button class="btn s" style="margin-top:8px" onclick="ret(${l.id})">Terima Pengembalian</button>`:'')).join('')||'<p class="mu">Belum ada data.</p>'}</div>`},
+laporan(){
+ const c=s=>D.loans.filter(l=>st(l)===s).length;
+ return head('Laporan','Rekap transaksi & stok')+`<div class="pad"><div class="grid"><div class="card stat"><span>Total Transaksi</span><b>${D.loans.length}</b></div><div class="card stat"><span>Terlambat</span><b>${c('Terlambat')}</b></div><div class="card stat"><span>Selesai</span><b>${c('Selesai')}</b></div><div class="card stat"><span>Aktif</span><b>${c('Dipinjam')+c('Terlambat')}</b></div></div>
+ <h3>Transaksi</h3><div class="card tbl"><table><tr><th>Tgl</th><th>Nama</th><th>Alat</th><th>Status</th></tr>${[...D.loans].reverse().map(l=>`<tr><td>${fmt(l.tgl)}</td><td>${E(l.user)}</td><td>${tool(l.alat).nama}</td><td>${tg(l)}</td></tr>`).join('')}</table></div>
+ <h3>Stok Alat</h3><div class="card tbl"><table><tr><th>Alat</th><th>Stok</th><th>Total</th></tr>${D.tools.map(t=>`<tr><td>${t.nama}</td><td>${t.stok}</td><td>${t.total}</td></tr>`).join('')}</table></div>
+ <button class="btn noprint" onclick="print()">Unduh Laporan (PDF)</button></div>`},
+profil(){
+ return head('Profil')+`<div class="pad"><div class="card row"><div class="ico">👤</div><div><b>${E(U.nama)}</b><div class="mu">${adm()?'Admin':'Siswa'} • ${U.kelas}</div></div></div>
+ <button class="btn l" onclick="theme()">🌓 Ganti Tema Terang/Gelap</button><br><br>
+ ${adm()?(F?`<button class="btn l" onclick="seedFB()">Isi Data Alat Contoh</button>`:`<button class="btn l" onclick="if(confirm('Reset semua data ke contoh awal?')){D=seed();save();render()}">Reset Data Demo</button>`)+'<br><br>':''}
+ <button class="btn d" onclick="logout()">Keluar</button></div>`}
+};
+function shrink(f){return new Promise(r=>{const i=new Image();i.onload=()=>{const k=Math.min(1,300/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=i.width*k;c.height=i.height*k;c.getContext('2d').drawImage(i,0,0,c.width,c.height);r(c.toDataURL('image/jpeg',.75))};i.src=URL.createObjectURL(f)})}
+function theme(){const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark'}
+function detail(id){const t=tool(id);
+ modal(`<div class="row"><div class="ico" style="width:64px;height:64px;font-size:36px">${pic(t)}</div><div class="sp"><h2 style="margin:0">${E(t.nama)}</h2><span class="tag y">${t.kat}</span></div></div>
+ <div class="card" style="margin-top:12px">${[['Kode',t.kode],['Stok Tersedia',t.stok],['Total Stok',t.total],['Kondisi',t.kon],['Lokasi',t.lok]].map(r=>`<div class="row"><span class="mu sp">${r[0]}</span><b>${E(r[1])}</b></div>`).join('')}</div>
+ <b>Deskripsi</b><p class="mu">${E(t.desc)}</p>
+ ${adm()?`<div class="row"><button class="btn d s sp" onclick="delTool(${id})">Hapus</button><button class="btn s sp" onclick="toolForm(${id})">Edit</button></div>`:`<button class="btn" ${t.stok?'':'disabled'} onclick="form(${id})">Ajukan Peminjaman</button>`}`)}
+function form(id){
+ modal(`<h3 style="margin-top:0">Form Peminjaman</h3><label>Nama</label><input value="${E(U.nama)} (${U.kelas})" disabled>
+ <label>Pilih Alat</label><select id="fa">${D.tools.filter(t=>t.stok>0).map(t=>`<option value="${t.id}" ${t.id==id?'selected':''}>${t.nama} (stok ${t.stok})</option>`).join('')}</select>
+ <label>Jumlah</label><input id="fj" type="number" min="1" value="1">
+ <div class="grid"><div><label>Tanggal Pinjam</label><input id="ft" type="date" value="${day(0)}"></div><div><label>Tanggal Kembali</label><input id="fk" type="date" value="${day(2)}"></div></div>
+ <label>Tujuan Penggunaan</label><select id="fu"><option>Praktikum Biologi</option><option>Praktikum Kimia</option><option>Praktikum Fisika</option><option>Lainnya</option></select>
+ <label>Catatan (opsional)</label><textarea id="fc" rows="2"></textarea><button class="btn" onclick="submitLoan()">Ajukan Peminjaman</button>`)}
+function submitLoan()}
+ const a=+$('#fa').value,j=+$('#fj').value,t=$('#ft').value,k=$('#fk').value,T=tool(a);
+ if(!(j>=1)||j>T.stok)return alert('Jumlah melebihi stok tersedia ('+T.stok+').');
+ if(!t||!k||k<t)return alert('Tanggal kembali harus sama atau setelah tanggal pinjam.');
+ D.loans.push({id:Date.now(),user:U.nama,uid:U.uid,kelas:U.kelas,alat:a,jml:j,tgl:t,kem:k,tuj:$('#fu').value,cat:$('#fc').value,st:'Menunggu',log:[[iso(TD),'Permohonan diajukan']]});
+ save();modal();tab='pinjam';sub='Aktif';render()}
+function ld(id){const l=D.loans.find(x=>x.id===id),t=tool(l.alat);
+ modal(`<div class="row"><div class="ico">${pic(t)}</div><div class="sp"><b>${E(t.nama)}</b><div class="mu">${t.kode}</div></div>${tg(l)}</div>
+ <h3>Informasi Peminjaman</h3><div class="card">${[['Peminjam',l.user+' ('+l.kelas+')'],['Jumlah',l.jml],['Tanggal Pinjam',fmt(l.tgl)],['Tanggal Kembali',fmt(l.kem)],['Tujuan',l.tuj],['Catatan',l.cat||'-']].map(r=>`<div class="row"><span class="mu sp">${r[0]}</span><span>${E(r[1])}</span></div>`).join('')}</div>
+ <h3>Riwayat Status</h3><div class="tl">${l.log.map(x=>`<div class="d">${E(x[1])}<div class="mu">${fmt(x[0])}</div></div>`).join('')}</div>`)}
+function act(id,a){const l=D.loans.find(x=>x.id===id),t=tool(l.alat);
+ if(a==='setuju'){if(t.stok<l.jml)return alert('Stok tidak cukup.');t.stok-=l.jml;l.st='Dipinjam';l.log.push([iso(TD),'Disetujui & alat diserahkan'])}
+ else{l.st='Ditolak';l.log.push([iso(TD),'Ditolak'])}
+ save();render()}
+function ret(id){const l=D.loans.find(x=>x.id===id);
+ modal(`<h3 style="margin-top:0">Pengembalian Alat</h3><p>${tool(l.alat).nama} ×${l.jml} — ${E(l.user)}</p><label>Kondisi Alat</label><select id="rk"><option>Baik</option><option>Rusak</option><option>Hilang</option></select><label>Catatan</label><textarea id="rc" rows="2"></textarea><button class="btn" onclick="doRet(${id})">Simpan</button>`)}
+function doRet(id){const l=D.loans.find(x=>x.id===id),t=tool(l.alat),k=$('#rk').value;
+ if(k==='Baik')t.stok+=l.jml;else if(k==='Hilang')t.total=Math.max(0,t.total-l.jml);
+ l.st='Selesai';l.log.push([iso(TD),'Dikembalikan ('+k+')'+($('#rc').value?' – '+$('#rc').value:'')]);save();modal();render()}
+function toolForm(id){const t=id?tool(id):{nama:'',kat:'Biologi',ic:'🧰',stok:1,total:1,kon:'Baik',lok:'',desc:'',kode:''};
+ modal(`<h3 style="margin-top:0">${id?'Edit':'Tambah'} Alat</h3><label>Nama</label><input id="tn" value="${E(t.nama)}"><label>Kategori</label><input id="tk" value="${E(t.kat)}"><label>Total Stok</label><input id="ts" type="number" min="0" value="${t.total}"><label>Lokasi</label><input id="tl" value="${E(t.lok)}"><label>Kondisi</label><select id="tc">${['Baik','Rusak ringan','Rusak'].map(o=>`<option ${o===t.kon?'selected':''}>${o}</option>`).join('')}</select><label>Deskripsi</label><textarea id="td" rows="2">${E(t.desc)}</textarea><label>Foto Alat (opsional)</label><input id="tf" type="file" accept="image/*"><button class="btn" onclick="saveTool(${id||0})">Simpan</button>`)}
+async function saveTool(id){const n=$('#tn').value.trim();if(!n)return alert('Nama alat wajib diisi.');const f=$('#tf').files[0];
+ const tot=+$('#ts').value,v={nama:n,kat:$('#tk').value||'Umum',total:tot,lok:$('#tl').value,kon:$('#tc').value,desc:$('#td').value};if(f)v.img=await shrink(f);
+ if(id){const t=tool(id);t.stok=Math.max(0,t.stok+tot-t.total);Object.assign(t,v)}
+ else{const i=Date.now();D.tools.push({id:i,kode:'LAB-'+String(D.tools.length+1).padStart(3,'0'),ic:'🧰',stok:tot,...v})}
+ save();modal();render()}
+function delTool(id){if(confirm('Hapus alat ini?')){D.tools=D.tools.filter(t=>t.id!==id);save();modal();render()}}
+function logout(){F?F.a.signOut(F.auth):(U=null,render())}
+function seedFB(){if(confirm('Tambahkan 5 alat contoh?')){D.tools=seed().tools;save()}}
+function reg(){modal(`<h3 style="margin-top:0">Daftar Akun Siswa</h3><label>Nama Lengkap</label><input id="rn"><label>Kelas</label><input id="rk" placeholder="X IPA 1"><label>Email</label><input id="re" type="email"><label>Password (min. 6 karakter)</label><input id="rp" type="password"><button class="btn" onclick="doReg()">Daftar</button>`)}
+async function doReg(){F.hold=new Promise(r=>F.rel=r);try{const c=await F.a.createUserWithEmailAndPassword(F.auth,$('#re').value.trim(),$('#rp').value),p={nama:$('#rn').value.trim()||$('#re').value,kelas:$('#rk').value.trim(),role:'siswa'};await F.m.setDoc(F.m.doc(F.db,'users',c.user.uid),p);modal()}catch(e){alert('Gagal daftar: '+e.code)}F.rel();F.hold=0}
+async function sync(){const{setDoc,deleteDoc,doc}=F.m;for(const c of['tools','loans']){const cur={};D[c].forEach(x=>cur[x.id]=JSON.stringify(x));
+ for(const i in cur)if(SNAP[c][i]!==cur[i]){SNAP[c][i]=cur[i];setDoc(doc(F.db,c,i),JSON.parse(cur[i])).catch(e=>alert('Gagal menyimpan: '+e.code))}
+ for(const i in SNAP[c])if(!(i in cur)){delete SNAP[c][i];deleteDoc(doc(F.db,c,i)).catch(()=>{})}}}
+async function fbInit(){const B='https://www.gstatic.com/firebasejs/10.12.2/',[a,au,fs]=await Promise.all(['app','auth','firestore'].map(n=>import(B+'firebase-'+n+'.js')));
+ const app=a.initializeApp(FB);F={a:au,m:fs,auth:au.getAuth(app),db:fs.getFirestore(app),un:[]};
+ au.onAuthStateChanged(F.auth,async u=>{F.un.forEach(f=>f());F.un=[];if(!u){U=null;D={tools:[],loans:[]};render();return}
+  await F.hold;const s=await fs.getDoc(fs.doc(F.db,'users',u.uid)),p=s.exists()?s.data():{nama:u.email,kelas:'',role:'siswa'};
+  U={uid:u.uid,nama:p.nama,kelas:p.kelas||'',role:p.role};tab='home';listen();render()})}
+function listen(){const{collection:C,query:Q,where:W,onSnapshot:O}=F.m;
+ F.un=['tools','loans'].map(c=>{const r=C(F.db,c);return O(adm()||c==='tools'?r:Q(r,W('uid','==',U.uid)),s=>{D[c]=s.docs.map(d=>d.data()).sort((x,y)=>x.id-y.id);SNAP[c]={};D[c].forEach(x=>SNAP[c][x.id]=JSON.stringify(x));render()},e=>console.warn(e))})}
+if(FB)fbInit().catch(e=>alert('Firebase gagal dimuat: '+e.message));
+render();
+</script></body></html>
