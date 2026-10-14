@@ -49,6 +49,12 @@ loans:[
 {id:1,user:'Andi Pratama',kelas:'X IPA 1',alat:1,jml:2,tgl:day(-1),kem:day(1),tuj:'Praktikum Biologi',cat:'',st:'Menunggu',log:[[day(-1),'Permohonan diajukan']]},
 {id:2,user:'Andi Pratama',kelas:'X IPA 1',alat:2,jml:3,tgl:day(-3),kem:day(-1),tuj:'Praktikum Kimia',cat:'',st:'Dipinjam',log:[[day(-3),'Permohonan diajukan'],[day(-3),'Disetujui']]},
 {id:3,user:'Andi Pratama',kelas:'X IPA 1',alat:5,jml:1,tgl:day(-9),kem:day(-7),tuj:'Praktikum Fisika',cat:'',st:'Selesai',log:[[day(-9),'Permohonan diajukan'],[day(-9),'Disetujui'],[day(-7),'Dikembalikan (Baik)']]},
+ {id:4,kode:'LAB-004',nama:'Spatula',kat:'Biologi',ic:'🥄',stok:10,total:12,kon:'Baik',lok:'Laci 2',desc:'Sendok kecil untuk mengambil bahan padat.'},
+{id:5,kode:'LAB-005',nama:'Neraca Digital',kat:'Fisika',ic:'⚖️',stok:4,total:5,kon:'Baik',lok:'Lemari C',desc:'Timbangan digital ketelitian 0,01 g.'}],
+loans:[
+{id:1,user:'Andi Pratama',kelas:'X IPA 1',alat:1,jml:2,tgl:day(-1),kem:day(1),tuj:'Praktikum Biologi',cat:'',st:'Menunggu',log:[[day(-1),'Permohonan diajukan']]},
+{id:2,user:'Andi Pratama',kelas:'X IPA 1',alat:2,jml:3,tgl:day(-3),kem:day(-1),tuj:'Praktikum Kimia',cat:'',st:'Dipinjam',log:[[day(-3),'Permohonan diajukan'],[day(-3),'Disetujui']]},
+{id:3,user:'Andi Pratama',kelas:'X IPA 1',alat:5,jml:1,tgl:day(-9),kem:day(-7),tuj:'Praktikum Fisika',cat:'',st:'Selesai',log:[[day(-9),'Permohonan diajukan'],[day(-9),'Disetujui'],[day(-7),'Dikembalikan (Baik)']]},
 {id:4,user:'Siti Nurhaliza',kelas:'XI IPA 2',alat:1,jml:2,tgl:day(0),kem:day(2),tuj:'Praktikum Biologi',cat:'',st:'Menunggu',log:[[day(0),'Permohonan diajukan']]},
 {id:5,user:'Budi Santoso',kelas:'XII IPA 1',alat:3,jml:1,tgl:day(-2),kem:day(2),tuj:'Titrasi',cat:'',st:'Dipinjam',log:[[day(-2),'Permohonan diajukan'],[day(-2),'Disetujui']]}]});
 let D;try{D=JSON.parse(localStorage.getItem(K))}catch(e){}if(FB)D={tools:[],loans:[]};else if(!D){D=seed();D.loans.forEach(l=>l.uid=l.user==='Andi Pratama'?'siswa':l.user)}
@@ -176,10 +182,10 @@ async function sync(){const{setDoc,deleteDoc,doc}=F.m;for(const c of['tools','lo
 async function fbInit(){const B='https://www.gstatic.com/firebasejs/10.12.2/',[a,au,fs]=await Promise.all(['app','auth','firestore'].map(n=>import(B+'firebase-'+n+'.js')));
  const app=a.initializeApp(FB);F={a:au,m:fs,auth:au.getAuth(app),db:fs.getFirestore(app),un:[]};
  au.onAuthStateChanged(F.auth,async u=>{F.un.forEach(f=>f());F.un=[];if(!u){U=null;D={tools:[],loans:[]};render();return}
-  await F.hold;const s=await fs.getDoc(fs.doc(F.db,'users',u.uid)),p=s.exists()?s.data():{nama:u.email,kelas:'',role:'siswa'};
+  await F.hold;let p={nama:u.email,kelas:'',role:'siswa'};try{const s=await fs.getDoc(fs.doc(F.db,'users',u.uid));if(s.exists())p=s.data();else fs.setDoc(fs.doc(F.db,'users',u.uid),p).catch(()=>{})}catch(e){alert('Gagal membaca profil ('+e.code+'). Pastikan Firestore Rules sudah di-Publish.')}
   U={uid:u.uid,nama:p.nama,kelas:p.kelas||'',role:p.role};tab='home';listen();render()})}
 function listen(){const{collection:C,query:Q,where:W,onSnapshot:O}=F.m;
- F.un=['tools','loans'].map(c=>{const r=C(F.db,c);return O(adm()||c==='tools'?r:Q(r,W('uid','==',U.uid)),s=>{D[c]=s.docs.map(d=>d.data()).sort((x,y)=>x.id-y.id);SNAP[c]={};D[c].forEach(x=>SNAP[c][x.id]=JSON.stringify(x));render()},e=>console.warn(e))})}
+ F.un=['tools','loans'].map(c=>{const r=C(F.db,c);return O(adm()||c==='tools'?r:Q(r,W('uid','==',U.uid)),s=>{D[c]=s.docs.map(d=>d.data()).sort((x,y)=>x.id-y.id);SNAP[c]={};D[c].forEach(x=>SNAP[c][x.id]=JSON.stringify(x));render()},e=>alert('Gagal memuat data ('+e.code+'). Cek Firestore Rules.'))})}
 if(FB)fbInit().catch(e=>alert('Firebase gagal dimuat: '+e.message));
 render();
 </script></body></html>
